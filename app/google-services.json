@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "192024028257",
+    "firebase_url": "https://myonlinedoctor-43f0a.firebaseio.com",
+    "project_id": "myonlinedoctor-43f0a",
+    "storage_bucket": "myonlinedoctor-43f0a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192024028257:android:13cda795ac1924fae07620",
+        "android_client_info": {
+          "package_name": "com.example.myonlinedoctor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "192024028257-kcehbmtu3prnlk7q3q4h2uq6lfout778.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myonlinedoctor",
+            "certificate_hash": "69a919803e6b371003b1a1b40e8468229f89b057"
+          }
+        },
+        {
+          "client_id": "192024028257-u8ntt8abmc7p768qn324pgd9vradl7d5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHA97WxBpfdY4ptOqnDuEfhTXoRr-Zuew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "192024028257-u8ntt8abmc7p768qn324pgd9vradl7d5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
