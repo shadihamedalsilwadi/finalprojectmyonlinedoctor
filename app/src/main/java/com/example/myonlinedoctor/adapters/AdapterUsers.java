@@ -1,6 +1,7 @@
-package com.example.myonlinedoctor;
+package com.example.myonlinedoctor.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myonlinedoctor.ChatActivity;
+import com.example.myonlinedoctor.R;
+import com.example.myonlinedoctor.modals.ModelUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -37,6 +41,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
 
+        final String hisUID = userList.get(position).getUid();
         String userImage = userList.get(position).getImage();
         String userName = userList.get(position).getName();
         final String userEmail = userList.get(position).getEmail();
@@ -51,7 +56,11 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, ""+userEmail, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, ""+userEmail, Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(context, ChatActivity.class);
+                intent.putExtra("hisUid", hisUID);
+                context.startActivity(intent);
             }
         });
 

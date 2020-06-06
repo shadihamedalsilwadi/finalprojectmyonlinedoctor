@@ -16,6 +16,7 @@
         android:layout_weight="1">
     </FrameLayout>
 
+    <!--TODO: change in the nav by android.support.design.widget.BottomNavigationView-->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_height="wrap_content"
@@ -23,9 +24,7 @@
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
         app:menu="@menu/menu_nav">
-
-
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+    </com.google.android.material.bottomnavigation.BottomNavigationView  >
 
 
 </LinearLayout>

@@ -1,23 +1,19 @@
 package com.example.myonlinedoctor;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class DashBoardActivity extends AppCompatActivity {
-
-
 
     FirebaseAuth firebaseAuth ;
     ActionBar actionBar;
@@ -33,7 +29,7 @@ public class DashBoardActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         BottomNavigationView navigationView = findViewById(R.id.navigation);
-        navigationView.setOnNavigationItemReselectedListener((BottomNavigationView.OnNavigationItemReselectedListener) selectedListener);
+        navigationView.setOnNavigationItemSelectedListener(selectedListener);
 
         //Default Fragment
         actionBar.setTitle("Home");
@@ -74,47 +70,37 @@ public class DashBoardActivity extends AppCompatActivity {
                             ft3.replace(R.id.content, fragment3, "");
                             ft3.commit();
                             return true;
+
+                        case R.id.nav_chat:
+                            //Profile Fragment Transaction
+                            actionBar.setTitle("Chat");
+                            ChatListFragment fragment4 = new ChatListFragment();
+                            FragmentTransaction ft4 = getSupportFragmentManager().beginTransaction();
+                            ft4.replace(R.id.content, fragment4, "");
+                            ft4.commit();
+                            return true;
                     }
 
                     return false;
                 }
             };
 
-    private void checkUserStatuse(){
-
+    private void checkUserStatuses(){
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if( user != null){
-
-
         }
         else {
             startActivity(new Intent(DashBoardActivity.this , MainActivity.class));
             finish();
         }
-
     }
 
     @Override
     protected void onStart() {
-        checkUserStatuse();
+        checkUserStatuses();
         super.onStart();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main , menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-         int id = item.getItemId();
-         if( id == R.id.action_logout) {
-             firebaseAuth.signOut();
-             checkUserStatuse();
-         }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onBackPressed() {
