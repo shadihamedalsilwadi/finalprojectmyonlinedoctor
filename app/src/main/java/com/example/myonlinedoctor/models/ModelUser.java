@@ -1,4 +1,4 @@
-package com.example.myonlinedoctor.modals;
+package com.example.myonlinedoctor.models;
 
 public class ModelUser {
     String name, email, search, phone, image, cover, uid;

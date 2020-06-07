@@ -9,6 +9,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.myonlinedoctor.fragments.ChatListFragment;
+import com.example.myonlinedoctor.fragments.HomeFragment;
+import com.example.myonlinedoctor.fragments.ProfileFragment;
+import com.example.myonlinedoctor.fragments.UsersFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

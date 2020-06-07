@@ -1,4 +1,4 @@
-package com.example.myonlinedoctor;
+package com.example.myonlinedoctor.fragments;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -29,6 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myonlinedoctor.MainActivity;
+import com.example.myonlinedoctor.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -41,6 +43,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -59,7 +62,7 @@ public class ProfileFragment extends Fragment {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     StorageReference storageReference;
-    String storagePath = "User_Profile_Cover_Image/";
+    String storagePath = "Users_Profile_Cover_Imgs/";
 //xml views
     ImageView avatarIv,coverIv;
     TextView nameTv,emailTv,phoneTv;
@@ -97,7 +100,7 @@ public class ProfileFragment extends Fragment {
         user = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
-        //storageReference = getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
 //TODO : storage instance ep7 minute:55
         //init array permissions
         cameraPermissions = new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -159,9 +162,8 @@ public class ProfileFragment extends Fragment {
     }
 
     private  boolean checkStoragePermission(){
-        boolean result = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        return ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == (PackageManager.PERMISSION_GRANTED);
-        return  result;
     }
     private void requestStoragePermissions(){
         requestPermissions(storagePermissions,STORAGE_REQUEST_CODE);
@@ -179,7 +181,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void showEditProfileDialog() {
-        String options[]={"Edit Profile Picture","Edit Cover Photo","Edit Name","Edit Phone"};
+        String[] options ={"Edit Profile Picture","Edit Cover Photo","Edit Name","Edit Phone"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Chose Action");
         builder.setItems(options, new DialogInterface.OnClickListener() {
@@ -258,7 +260,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void showImagePicDialog() {
-        String options[]={"Camera","Gallery"};
+        String[] options ={"Camera","Gallery"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Pick Image From");
         builder.setItems(options, new DialogInterface.OnClickListener() {
@@ -311,43 +313,48 @@ public class ProfileFragment extends Fragment {
             }
             break;
         }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         if(resultCode == RESULT_OK){
-            if(resultCode == IMAGE_PICK_CAMERA_CODE){
+            if(requestCode == IMAGE_PICK_CAMERA_CODE){
                 image_uri = data.getData();
 
                 uploadProfileCoverPhoto(image_uri);
 
             }
-            if(resultCode == IMAGE_PICK_GALLERY_CODE){
+            if(requestCode == IMAGE_PICK_GALLERY_CODE){
+
+                uploadProfileCoverPhoto(image_uri);
 
             }
-
         }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void uploadProfileCoverPhoto(Uri uri) {
         pd.show();
 
-        String filePathName = storagePath + "" + profileOrCoverPhoto + "_" + user.getUid();
+        String filePathAndName = storagePath + "" + profileOrCoverPhoto + "_" + user.getUid();
 
-        StorageReference storageReference2nd = storageReference.child(filePathName);
-        storageReference2nd.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        StorageReference storageReference2nd = storageReference.child(filePathAndName);
+        storageReference2nd.putFile(uri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
                 Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
                 while(!uriTask.isSuccessful());
                 Uri dowloadUri = uriTask.getResult();
+
                 if(uriTask.isSuccessful()){
-                    HashMap<String,Object> result =new HashMap<>();
-                    result.put(profileOrCoverPhoto,dowloadUri.toString());
+                    HashMap<String, Object> result =new HashMap<>();
+                    result.put(profileOrCoverPhoto, dowloadUri.toString());
                     databaseReference.child(user.getUid()).updateChildren(result)
+
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -383,10 +390,10 @@ public class ProfileFragment extends Fragment {
         values.put(MediaStore.Images.Media.TITLE,"Temp Pic");
         values.put(MediaStore.Images.Media.DESCRIPTION,"Temp Description");
 
-        image_uri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
+        image_uri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,image_uri);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
         startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE);
 
     }
@@ -414,6 +421,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main , menu);
+        menu.findItem(R.id.action_search).setVisible(false);
         super.onCreateOptionsMenu(menu, inflater);
     }
     @Override

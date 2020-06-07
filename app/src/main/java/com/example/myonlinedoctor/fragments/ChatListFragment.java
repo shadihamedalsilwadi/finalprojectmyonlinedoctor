@@ -1,4 +1,4 @@
-package com.example.myonlinedoctor;
+package com.example.myonlinedoctor.fragments;
 
 import android.os.Bundle;
 
@@ -8,12 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.myonlinedoctor.R;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ChatListFragment extends Fragment {
-
-
 
     public ChatListFragment() {
         // Required empty public constructor

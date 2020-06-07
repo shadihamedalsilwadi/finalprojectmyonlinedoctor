@@ -1,4 +1,4 @@
-package com.example.myonlinedoctor;
+package com.example.myonlinedoctor.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,8 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
+import com.example.myonlinedoctor.MainActivity;
+import com.example.myonlinedoctor.R;
 import com.example.myonlinedoctor.adapters.AdapterUsers;
-import com.example.myonlinedoctor.modals.ModelUser;
+import com.example.myonlinedoctor.models.ModelUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

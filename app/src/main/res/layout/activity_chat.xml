@@ -56,8 +56,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
         android:layout_above="@+id/chatLayout">
-
-
     </androidx.recyclerview.widget.RecyclerView>
 
     <LinearLayout
@@ -85,9 +83,6 @@
             android:src="@drawable/ic_send"
             android:layout_width="40dp"
             android:layout_height="40dp"/>
-
-
-
     </LinearLayout>
 
 </RelativeLayout>

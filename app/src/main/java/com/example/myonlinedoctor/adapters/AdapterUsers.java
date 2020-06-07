@@ -7,14 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myonlinedoctor.ChatActivity;
 import com.example.myonlinedoctor.R;
-import com.example.myonlinedoctor.modals.ModelUser;
+import com.example.myonlinedoctor.models.ModelUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
